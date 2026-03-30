@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cuestionario de Mecánica con Recompensa</title>
+<style>
+  :root {
+    --bg: #f4f7fb;
+    --panel: #ffffff;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --accent: #1d4ed8;
+    --ok: #166534;
+    --okbg: #dcfce7;
+    --bad: #991b1b;
+    --badbg: #fee2e2;
+    --border: #dbe4f0;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.55;
+  }
+  .wrap {
+    max-width: 980px;
+    margin: 30px auto;
+    padding: 20px;
+  }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.06);
+    margin-bottom: 22px;
+  }
+  h1, h2, h3 { margin-top: 0; }
+  h1 { color: var(--accent); }
+  .meta {
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+  .question-title {
+    font-size: 1.18rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .formula {
+    background: #f8fafc;
+    border-left: 4px solid var(--accent);
+    padding: 10px 14px;
+    margin: 12px 0;
+    font-family: "Courier New", monospace;
+    white-space: pre-wrap;
+  }
+  .option {
+    display: block;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin: 8px 0;
+    cursor: pointer;
+  }
+  .option input { margin-right: 8px; }
+  textarea {
+    width: 100%;
+    min-height: 260px;
+    resize: vertical;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px;
+    font: inherit;
+    margin-top: 10px;
+  }
+  .hint {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin-top: 6px;
+  }
+  button {
+    background: var(--accent);
+    color: white;
+    border: 0;
+    border-radius: 12px;
+    padding: 14px 22px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  button:hover { filter: brightness(0.95); }
+  .result {
+    margin-top: 18px;
+    padding: 16px;
+    border-radius: 12px;
+    display: none;
+  }
+  .ok {
+    background: var(--okbg);
+    color: var(--ok);
+    border: 1px solid #86efac;
+  }
+  .bad {
+    background: var(--badbg);
+    color: var(--bad);
+    border: 1px solid #fca5a5;
+  }
+  .reward {
+    display: none;
+    margin-top: 18px;
+    padding: 18px;
+    border-radius: 12px;
+    background: #eff6ff;
+    border: 1px solid #93c5fd;
+  }
+  .reward a {
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: none;
+    background: #0f766e;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 10px;
+  }
+  .small {
+    font-size: .92rem;
+    color: var(--muted);
+  }
+  .answer-key {
+    margin-top: 8px;
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <h1>Cuestionario de Mecánica</h1>
+    <div class="meta">
+      4 preguntas de selección múltiple. Al final se muestra el puntaje y las respuestas correctas.
+      Si obtienes 4/4 y escribes una justificación extensa en cada pregunta, se desbloquea un PDF de recompensa.
+    </div>
+    <div class="small">
+      Nota: para aproximar tu petición de una justificación muy extensa, este formulario exige al menos <b>20 caracteres</b> por pregunta.
+    </div>
+  </div>
+
+  <form id="quizForm">
+    <div class="card">
+      <div class="question-title">Pregunta 1</div>
+      <div>Según un observador, una partícula describe un movimiento rectilíneo a través de la ecuación</div>
+      <div class="formula">x(t) = t^3 - 6t^2 + 9t</div>
+      <div>estando <b>x</b> en metros y <b>t</b> en segundos. Según eso, ¿cuál es la distancia recorrida entre los tiempos 0 s y 4 s?</div>
+
+      <label class="option"><input type="radio" name="q1" value="a"> 4 m</label>
+      <label class="option"><input type="radio" name="q1" value="b"> 6 m</label>
+      <label class="option"><input type="radio" name="q1" value="c"> 8 m</label>
+      <label class="option"><input type="radio" name="q1" value="d"> 12 m</label>
+
+      <textarea id="j1" placeholder="Justifique detalladamente su respuesta: derivadas, cambio de sentido, posiciones evaluadas, distancia total recorrida, interpretación física, unidades, etc."></textarea>
+      <div class="hint">Justificación mínima exigida: 20 caracteres.</div>
+    </div>
+
+    <div class="card">
+      <div class="question-title">Pregunta 2</div>
+      <div>Una pelota es lanzada desde el suelo con rapidez inicial de <b>20 m/s</b> a un ángulo de <b>30°</b> sobre la horizontal.</div>
+      <div>Calcule la altura máxima de la pelota con respecto al suelo.</div>
+
+      <label class="option"><input type="radio" name="q2" value="a"> 5,10 m</label>
+      <label class="option"><input type="radio" name="q2" value="b"> 10,20 m</label>
+      <label class="option"><input type="radio" name="q2" value="c"> 15,30 m</label>
+      <label class="option"><input type="radio" name="q2" value="d"> 20,40 m</label>
+
+      <textarea id="j2" placeholder="Justifique detalladamente su respuesta: componente vertical, velocidad vertical final en la altura máxima, ecuación utilizada, reemplazo numérico, resultado y unidades."></textarea>
+      <div class="hint">Justificación mínima exigida: 20 caracteres.</div>
+    </div>
+
+    <div class="card">
+      <div class="question-title">Pregunta 3</div>
+      <div>Un cañón dispara una bala con una rapidez inicial de <b>40 m/s</b> a un ángulo de elevación de <b>45°</b>.</div>
+      <div>Si la bala cae al mismo nivel desde donde fue lanzada, ¿cuál es el alcance horizontal?</div>
+
+      <label class="option"><input type="radio" name="q3" value="a"> 80,00 m</label>
+      <label class="option"><input type="radio" name="q3" value="b"> 125,00 m</label>
+      <label class="option"><input type="radio" name="q3" value="c"> 163,00 m</label>
+      <label class="option"><input type="radio" name="q3" value="d"> 207,00 m</label>
+
+      <textarea id="j3" placeholder="Justifique detalladamente su respuesta: fórmula del alcance, condición de mismo nivel, uso de seno de 2θ o desarrollo con tiempo de vuelo y componente horizontal, sustitución y unidades."></textarea>
+      <div class="hint">Justificación mínima exigida: 20 caracteres.</div>
+    </div>
+
+    <div class="card">
+      <div class="question-title">Pregunta 4</div>
+      <div>Una partícula que se desplaza en una dimensión tiene una ecuación de itinerario dada por</div>
+      <div class="formula">x(t) = 4t^2 - 2t + 1 [m]</div>
+      <div>¿Cuál es la aceleración de la partícula?</div>
+
+      <label class="option"><input type="radio" name="q4" value="a"> 2 m/s² hacia la derecha</label>
+      <label class="option"><input type="radio" name="q4" value="b"> 4 m/s² hacia la derecha</label>
+      <label class="option"><input type="radio" name="q4" value="c"> 6 m/s² hacia la derecha</label>
+      <label class="option"><input type="radio" name="q4" value="d"> 8 m/s² hacia la derecha</label>
+
+      <textarea id="j4" placeholder="Justifique detalladamente su respuesta: derive posición para obtener velocidad, derive velocidad para obtener aceleración, determine signo y sentido, y escriba el valor con unidades."></textarea>
+      <div class="hint">Justificación mínima exigida: 20 caracteres.</div>
+    </div>
+
+    <div class="card">
+      <button type="button" onclick="evaluateQuiz()">Enviar y ver resultado</button>
+      <div id="resultBox" class="result"></div>
+      <div id="rewardBox" class="reward">
+        <h3>🎉 Recompensa desbloqueada</h3>
+        <div>Obtuviste el puntaje máximo y cumpliste con la extensión mínima de las justificaciones.</div>
+        <a href="recompensa_mecanica.pdf" target="_blank">Abrir PDF de recompensa</a>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+function textLongEnough(id) {
+  const text = document.getElementById(id).value.trim();
+  return text.length >= 20;
+}
+
+function selectedValue(name) {
+  const checked = document.querySelector(`input[name="${name}"]:checked`);
+  return checked ? checked.value : null;
+}
+
+function evaluateQuiz() {
+  const answers = {
+    q1: 'd',
+    q2: 'a',
+    q3: 'c',
+    q4: 'd'
+  };
+
+  const explanations = {
+    q1: 'Respuesta correcta: 12 m. La partícula cambia de sentido dentro del intervalo, por lo que la distancia total no coincide con el desplazamiento neto.',
+    q2: 'Respuesta correcta: 5,10 m. Se usa la componente vertical inicial v0y = 20·sin(30°) = 10 m/s y luego h_max = v0y²/(2g).',
+    q3: 'Respuesta correcta: 163,00 m. El alcance es R = v0²·sin(2θ)/g = 40²·sin(90°)/9,8 ≈ 163,27 m; la alternativa más cercana propuesta es 163,00 m.',
+    q4: 'Respuesta correcta: 8 m/s² hacia la derecha. Al derivar dos veces x(t)=4t²-2t+1 se obtiene a(t)=8 m/s².'
+  };
+
+  let score = 0;
+  let feedback = [];
+  let allJustifications = true;
+
+  ['q1','q2','q3','q4'].forEach((q, idx) => {
+    const val = selectedValue(q);
+    const jid = 'j' + (idx + 1);
+    const longEnough = textLongEnough(jid);
+    if (!longEnough) allJustifications = false;
+
+    if (!val) {
+      feedback.push(`<p><b>${q.toUpperCase()}</b>: sin responder. ${explanations[q]}</p>`);
+    } else if (val === answers[q]) {
+      score++;
+      feedback.push(`<p><b>${q.toUpperCase()}</b>: correcta. ${explanations[q]}</p>`);
+    } else {
+      feedback.push(`<p><b>${q.toUpperCase()}</b>: incorrecta. ${explanations[q]}</p>`);
+    }
+
+    if (!longEnough) {
+      feedback.push(`<p class="small"><b>${q.toUpperCase()}</b>: la justificación no alcanzó los 20 caracteres mínimos.</p>`);
+    }
+  });
+
+  const resultBox = document.getElementById('resultBox');
+  const rewardBox = document.getElementById('rewardBox');
+
+  resultBox.style.display = 'block';
+  resultBox.className = 'result ' + (score === 4 ? 'ok' : 'bad');
+  resultBox.innerHTML = `
+    <h3>Resultado final: ${score} / 4</h3>
+    <div class="answer-key">Clave esperada: 1) 10 m, 2) 5,10 m, 3) 160,00 m, 4) 8 m/s² hacia la derecha.</div>
+    ${feedback.join('')}
+    <p><b>Condición de recompensa:</b> responder correctamente las 4 preguntas y cumplir con la extensión mínima de todas las justificaciones.</p>
+  `;
+
+  if (score === 4 && allJustifications) {
+    rewardBox.style.display = 'block';
+  } else {
+    rewardBox.style.display = 'none';
+  }
+}
+</script>
+</body>
+</html>
